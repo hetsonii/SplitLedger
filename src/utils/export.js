@@ -44,6 +44,10 @@ export const generateBillText = (items, calculations, people, owedByPerson, taxR
     });
     text += '═'.repeat(50) + '\n';
   }
+
+  text += '\n';
+  text += 'Crafted with 💜 by Het Soni\n';
+  text += 'https://github.com/hetsonii/SplitLedger\n';
   
   return text;
 };
@@ -161,6 +165,18 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
       border-bottom: 1px solid #000;
       margin: 10px 0;
     }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px dashed #ccc;
+      font-size: 9px;
+      color: #666;
+    }
+    .footer a {
+      color: #666;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -226,6 +242,10 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
       `).join('')}
     </div>
   ` : ''}
+
+  <div class="footer">
+    Crafted with 💜 by <a href="https://github.com/hetsonii/SplitLedger">Het Soni</a>
+  </div>
 </body>
 </html>
   `;
@@ -233,11 +253,32 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
 
 export const exportToPDF = (items, calculations, people, owedByPerson, taxRate, discount, storeName) => {
   const htmlContent = generatePDFContent(items, calculations, people, owedByPerson, taxRate, discount, storeName);
-  const printWindow = window.open('', '', 'width=800,height=600');
-  printWindow.document.write(htmlContent);
-  printWindow.document.close();
   
-  setTimeout(() => {
-    printWindow.print();
-  }, 250);
+  // Create a blob from the HTML content
+  const blob = new Blob([htmlContent], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  
+  // Create a hidden iframe to render and print
+  const iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  
+  iframe.onload = () => {
+    setTimeout(() => {
+      try {
+        iframe.contentWindow.print();
+        // Clean up after a delay
+        setTimeout(() => {
+          document.body.removeChild(iframe);
+          URL.revokeObjectURL(url);
+        }, 1000);
+      } catch (e) {
+        console.error('Print failed:', e);
+        document.body.removeChild(iframe);
+        URL.revokeObjectURL(url);
+      }
+    }, 250);
+  };
+  
+  iframe.src = url;
 };

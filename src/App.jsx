@@ -222,6 +222,28 @@ export default function App() {
         discount={discount}
         storeName={storeName}
       />
+
+      <div style={{ 
+        textAlign: 'center', 
+        marginTop: '20px', 
+        paddingTop: '15px',
+        borderTop: '1px dashed #ddd',
+        fontSize: '10px',
+        color: '#666'
+      }}>
+        Crafted with 💜 by <a 
+          href="https://github.com/hetsonii/SplitLedger" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{ 
+            color: '#666', 
+            textDecoration: 'none',
+            borderBottom: '1px dotted #999'
+          }}
+        >
+          Het Soni
+        </a>
+      </div>
     </div>
   );
 }
