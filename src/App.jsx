@@ -43,14 +43,14 @@ export default function App() {
   }, []);
 
   const updateItem = (id, field, value) => {
-    setItems(items.map(item => 
+    setItems(items.map(item =>
       item.id === id ? { ...item, [field]: value } : item
     ));
   };
 
   const addOwnerToItem = (itemId, ownerName) => {
     if (!ownerName.trim()) return;
-    
+
     setItems(items.map(item => {
       if (item.id === itemId) {
         // Convert to title case for consistency
@@ -68,8 +68,8 @@ export default function App() {
   };
 
   const removeOwnerFromItem = (itemId, ownerName) => {
-    setItems(items.map(item => 
-      item.id === itemId 
+    setItems(items.map(item =>
+      item.id === itemId
         ? { ...item, owners: item.owners.filter(o => o !== ownerName) }
         : item
     ));
@@ -77,9 +77,9 @@ export default function App() {
 
   const splitAmongAll = (itemId) => {
     if (people.length === 0) return;
-    
-    setItems(items.map(item => 
-      item.id === itemId 
+
+    setItems(items.map(item =>
+      item.id === itemId
         ? { ...item, owners: [...people] }
         : item
     ));
@@ -109,11 +109,11 @@ export default function App() {
       backgroundColor: '#fff',
       minHeight: '100vh'
     }}>
-      <div style={{ 
-        textAlign: 'center', 
-        marginBottom: '20px', 
-        borderBottom: '2px dashed #000', 
-        paddingBottom: '15px' 
+      <div style={{
+        textAlign: 'center',
+        marginBottom: '20px',
+        borderBottom: '2px dashed #000',
+        paddingBottom: '15px'
       }}>
         <input
           type="text"
@@ -134,17 +134,17 @@ export default function App() {
         <p style={{ fontSize: '10px', margin: '2px 0' }}>{new Date().toLocaleString()}</p>
       </div>
 
-      <div style={{ 
-        marginBottom: '15px', 
-        padding: '10px', 
-        backgroundColor: '#f5f5f5', 
-        border: '1px solid #ddd' 
+      <div style={{
+        marginBottom: '15px',
+        padding: '10px',
+        backgroundColor: '#f5f5f5',
+        border: '1px solid #ddd'
       }}>
-        <label style={{ 
-          fontSize: '11px', 
-          display: 'block', 
-          marginBottom: '5px', 
-          fontWeight: 'bold' 
+        <label style={{
+          fontSize: '11px',
+          display: 'block',
+          marginBottom: '5px',
+          fontWeight: 'bold'
         }}>
           TAX RATE (%)
         </label>
@@ -153,19 +153,19 @@ export default function App() {
           step="0.01"
           value={taxRate}
           onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
-          style={{ 
-            width: '100%', 
-            padding: '6px', 
-            fontSize: '12px', 
-            border: '1px solid #333' 
+          style={{
+            width: '100%',
+            padding: '6px',
+            fontSize: '12px',
+            border: '1px solid #333'
           }}
         />
       </div>
 
-      <div style={{ 
-        borderTop: '2px dashed #000', 
-        borderBottom: '2px dashed #000', 
-        paddingTop: '10px' 
+      <div style={{
+        borderTop: '2px dashed #000',
+        borderBottom: '2px dashed #000',
+        paddingTop: '10px'
       }}>
         {items.map((item, index) => (
           <div key={item.id}>
@@ -180,26 +180,26 @@ export default function App() {
               onSplitAll={splitAmongAll}
             />
             {index < items.length - 1 && (
-              <div style={{ 
-                height: '1px', 
-                backgroundColor: '#ddd', 
-                margin: '8px 0' 
+              <div style={{
+                height: '1px',
+                backgroundColor: '#ddd',
+                margin: '8px 0'
               }} />
             )}
           </div>
         ))}
-        
-        <button 
+
+        <button
           onClick={addNewItem}
-          style={{ 
-            width: '100%', 
-            padding: '8px', 
-            fontSize: '11px', 
-            backgroundColor: '#0071ce', 
-            color: '#fff', 
-            border: 'none', 
-            cursor: 'pointer', 
-            marginTop: '10px' 
+          style={{
+            width: '100%',
+            padding: '8px',
+            fontSize: '11px',
+            backgroundColor: '#0071ce',
+            color: '#fff',
+            border: 'none',
+            cursor: 'pointer',
+            marginTop: '10px'
           }}
         >
           + ADD ITEM
@@ -226,46 +226,24 @@ export default function App() {
       />
 
       <div style={{
-        marginTop: '30px',
-        marginBottom: '20px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: '8px'
+        textAlign: 'center',
+        marginTop: '20px',
+        paddingTop: '15px',
+        borderTop: '1px dashed #ddd',
+        fontSize: '10px',
+        color: '#666'
       }}>
-        <a
+        Crafted with 💜 by <a
           href="https://github.com/hetsonii/SplitLedger"
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            padding: '6px 14px',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            borderRadius: '20px',
-            color: '#fff',
+            color: '#666',
             textDecoration: 'none',
-            fontSize: '10px',
-            fontWeight: '600',
-            transition: 'all 0.3s ease',
-            cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)',
-            fontFamily: 'system-ui, -apple-system, sans-serif'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 2px 8px rgba(102, 126, 234, 0.3)';
+            borderBottom: '1px dotted #999'
           }}
         >
-          <span>💜</span>
-          <span>by hetsonii</span>
-          <span style={{ opacity: 0.7 }}>•</span>
-          <span>⭐</span>
+          Het Soni
         </a>
       </div>
     </div>

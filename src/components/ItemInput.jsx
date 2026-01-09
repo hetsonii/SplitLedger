@@ -1,8 +1,8 @@
-export default function ItemInput({ 
-  item, 
-  people, 
-  onUpdate, 
-  onRemove, 
+export default function ItemInput({
+  item,
+  people,
+  onUpdate,
+  onRemove,
   onBlur,
   onAddOwner,
   onRemoveOwner,
@@ -26,12 +26,12 @@ export default function ItemInput({
           onChange={(e) => onUpdate(item.id, 'name', e.target.value)}
           onBlur={() => onBlur(item)}
           placeholder="Item name"
-          style={{ 
-            flex: '2', 
-            padding: '6px', 
-            fontSize: '11px', 
-            border: '1px solid #999', 
-            fontFamily: 'Courier New, monospace' 
+          style={{
+            flex: '2',
+            padding: '6px',
+            fontSize: '11px',
+            border: '1px solid #999',
+            fontFamily: 'Courier New, monospace'
           }}
         />
         <input
@@ -41,12 +41,12 @@ export default function ItemInput({
           onChange={(e) => onUpdate(item.id, 'quantity', e.target.value)}
           onBlur={() => onBlur(item)}
           placeholder="Qty"
-          style={{ 
-            width: '50px', 
-            padding: '6px', 
-            fontSize: '11px', 
-            border: '1px solid #999', 
-            fontFamily: 'Courier New, monospace' 
+          style={{
+            width: '50px',
+            padding: '6px',
+            fontSize: '11px',
+            border: '1px solid #999',
+            fontFamily: 'Courier New, monospace'
           }}
         />
         <input
@@ -56,20 +56,20 @@ export default function ItemInput({
           onChange={(e) => onUpdate(item.id, 'price', e.target.value)}
           onBlur={() => onBlur(item)}
           placeholder="$"
-          style={{ 
-            width: '70px', 
-            padding: '6px', 
-            fontSize: '11px', 
-            border: '1px solid #999', 
-            fontFamily: 'Courier New, monospace' 
+          style={{
+            width: '70px',
+            padding: '6px',
+            fontSize: '11px',
+            border: '1px solid #999',
+            fontFamily: 'Courier New, monospace'
           }}
         />
-        <label style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '3px', 
-          fontSize: '10px', 
-          whiteSpace: 'nowrap' 
+        <label style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '3px',
+          fontSize: '10px',
+          whiteSpace: 'nowrap'
         }}>
           <input
             type="checkbox"
@@ -80,12 +80,12 @@ export default function ItemInput({
           T
         </label>
       </div>
-      
-      <div style={{ 
-        display: 'flex', 
-        gap: '5px', 
-        alignItems: 'center', 
-        marginBottom: '5px' 
+
+      <div style={{
+        display: 'flex',
+        gap: '5px',
+        alignItems: 'center',
+        marginBottom: '5px'
       }}>
         <input
           type="text"
@@ -99,12 +99,12 @@ export default function ItemInput({
             }
           }}
           placeholder="Add person (Enter to add)"
-          style={{ 
-            flex: 1, 
-            padding: '6px', 
-            fontSize: '11px', 
-            border: '1px solid #999', 
-            fontFamily: 'Courier New, monospace' 
+          style={{
+            flex: 1,
+            padding: '6px',
+            fontSize: '11px',
+            border: '1px solid #999',
+            fontFamily: 'Courier New, monospace'
           }}
         />
         <datalist id={`people-list-${item.id}`}>
@@ -112,34 +112,34 @@ export default function ItemInput({
             <option key={person} value={person} />
           ))}
         </datalist>
-        
+
         {people.length > 0 && (
           <button
             onClick={() => onSplitAll(item.id)}
             title="Split among all"
-            style={{ 
-              padding: '6px 8px', 
-              fontSize: '10px', 
-              cursor: 'pointer', 
-              backgroundColor: '#4CAF50', 
-              color: '#fff', 
-              border: 'none', 
-              whiteSpace: 'nowrap' 
+            style={{
+              padding: '6px 8px',
+              fontSize: '10px',
+              cursor: 'pointer',
+              backgroundColor: '#4CAF50',
+              color: '#fff',
+              border: 'none',
+              whiteSpace: 'nowrap'
             }}
           >
             ✓ ALL
           </button>
         )}
-        
-        <button 
+
+        <button
           onClick={() => onRemove(item.id)}
-          style={{ 
-            padding: '6px 8px', 
-            fontSize: '10px', 
-            cursor: 'pointer', 
-            backgroundColor: '#f44336', 
-            color: '#fff', 
-            border: 'none' 
+          style={{
+            padding: '6px 8px',
+            fontSize: '10px',
+            cursor: 'pointer',
+            backgroundColor: '#f44336',
+            color: '#fff',
+            border: 'none'
           }}
         >
           X

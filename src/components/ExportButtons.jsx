@@ -1,24 +1,24 @@
 import { useState } from 'react';
 import { generateBillText, copyToClipboard, exportToPDF } from '../utils/export';
 
-export default function ExportButtons({ 
-  items, 
-  calculations, 
-  people, 
-  owedByPerson, 
-  taxRate, 
+export default function ExportButtons({
+  items,
+  calculations,
+  people,
+  owedByPerson,
+  taxRate,
   discount,
-  storeName 
+  storeName
 }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     const text = generateBillText(
-      items, 
-      calculations, 
-      people, 
-      owedByPerson, 
-      taxRate, 
+      items,
+      calculations,
+      people,
+      owedByPerson,
+      taxRate,
       discount,
       storeName
     );
@@ -31,11 +31,11 @@ export default function ExportButtons({
 
   const handleExportPDF = () => {
     exportToPDF(
-      items, 
-      calculations, 
-      people, 
-      owedByPerson, 
-      taxRate, 
+      items,
+      calculations,
+      people,
+      owedByPerson,
+      taxRate,
       discount,
       storeName
     );
@@ -50,9 +50,9 @@ export default function ExportButtons({
   }
 
   return (
-    <div style={{ 
-      marginTop: '20px', 
-      display: 'flex', 
+    <div style={{
+      marginTop: '20px',
+      display: 'flex',
       gap: '10px',
       borderTop: '2px dashed #000',
       paddingTop: '20px'

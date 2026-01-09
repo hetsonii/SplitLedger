@@ -11,7 +11,7 @@ export const generateBillText = (items, calculations, people, owedByPerson, taxR
 
   text += 'ITEMS:\n';
   text += '─'.repeat(50) + '\n';
-  
+
   validItems.forEach(item => {
     const owners = item.owners.join(', ');
     const taxIndicator = item.taxable ? ' T' : '';
@@ -24,12 +24,12 @@ export const generateBillText = (items, calculations, people, owedByPerson, taxR
 
   text += '─'.repeat(50) + '\n\n';
   text += `SUBTOTAL:                 $${calculations.subtotal.toFixed(2)}\n`;
-  
+
   if (discount && parseFloat(discount) > 0) {
     text += `DISCOUNT (${discount}%):         -$${calculations.discountAmount.toFixed(2)}\n`;
     text += `SUBTOTAL AFTER DISCOUNT:  $${calculations.subtotalAfterDiscount.toFixed(2)}\n`;
   }
-  
+
   text += `TAX (${taxRate}%):                $${calculations.taxAmount.toFixed(2)}\n`;
   text += '─'.repeat(50) + '\n';
   text += `TOTAL:                    $${calculations.finalTotal.toFixed(2)}\n`;
@@ -48,7 +48,7 @@ export const generateBillText = (items, calculations, people, owedByPerson, taxR
   text += '\n';
   text += 'Crafted with 💜 by Het Soni\n';
   text += 'https://github.com/hetsonii/SplitLedger\n';
-  
+
   return text;
 };
 
@@ -187,12 +187,12 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
 
   <div class="items">
     ${validItems.map(item => {
-      const owners = item.owners.join(', ');
-      const taxIndicator = item.taxable ? ' T' : '';
-      const qty = parseInt(item.quantity) || 1;
-      const unitPrice = parseFloat(item.price);
-      const totalPrice = unitPrice * qty;
-      return `
+    const owners = item.owners.join(', ');
+    const taxIndicator = item.taxable ? ' T' : '';
+    const qty = parseInt(item.quantity) || 1;
+    const unitPrice = parseFloat(item.price);
+    const totalPrice = unitPrice * qty;
+    return `
         <div class="item">
           <div class="item-header">
             <span>${item.name}${taxIndicator}</span>
@@ -202,7 +202,7 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
           <div class="item-details">[${owners}]</div>
         </div>
       `;
-    }).join('')}
+  }).join('')}
   </div>
 
   <div class="totals">
@@ -253,16 +253,16 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
 
 export const exportToPDF = (items, calculations, people, owedByPerson, taxRate, discount, storeName) => {
   const htmlContent = generatePDFContent(items, calculations, people, owedByPerson, taxRate, discount, storeName);
-  
+
   // Create a blob from the HTML content
   const blob = new Blob([htmlContent], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
-  
+
   // Create a hidden iframe to render and print
   const iframe = document.createElement('iframe');
   iframe.style.display = 'none';
   document.body.appendChild(iframe);
-  
+
   iframe.onload = () => {
     setTimeout(() => {
       try {
@@ -279,6 +279,6 @@ export const exportToPDF = (items, calculations, people, owedByPerson, taxRate, 
       }
     }, 250);
   };
-  
+
   iframe.src = url;
 };
