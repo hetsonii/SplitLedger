@@ -3,7 +3,10 @@ export const calculateBillTotals = (items, taxRate, discount) => {
     item => item.price && !isNaN(parseFloat(item.price)) && item.owners.length > 0
   );
 
-  const subtotal = validItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
+  const subtotal = validItems.reduce((sum, item) => {
+    const qty = parseInt(item.quantity) || 1;
+    return sum + (parseFloat(item.price) * qty);
+  }, 0);
   
   // Apply discount before tax
   const discountValue = parseFloat(discount) || 0;
@@ -14,7 +17,8 @@ export const calculateBillTotals = (items, taxRate, discount) => {
   const taxableAmount = validItems
     .filter(i => i.taxable)
     .reduce((sum, item) => {
-      const itemPrice = parseFloat(item.price);
+      const qty = parseInt(item.quantity) || 1;
+      const itemPrice = parseFloat(item.price) * qty;
       const itemDiscount = (discountValue / 100) * itemPrice;
       return sum + (itemPrice - itemDiscount);
     }, 0);
@@ -45,7 +49,8 @@ export const calculatePersonOwed = (items, people, taxRate, discount) => {
     validItems.forEach(item => {
       if (item.owners.includes(person)) {
         const splitCount = item.owners.length;
-        const itemPrice = parseFloat(item.price);
+        const qty = parseInt(item.quantity) || 1;
+        const itemPrice = parseFloat(item.price) * qty;
         const itemShare = itemPrice / splitCount;
         
         // Apply discount before tax

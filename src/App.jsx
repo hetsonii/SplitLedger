@@ -8,7 +8,7 @@ export default function App() {
   const [items, setItems] = useState([]);
   const [taxRate, setTaxRate] = useState(14);
   const [discount, setDiscount] = useState('');
-  const [storeName, setStoreName] = useState('RETAIL STORE');
+  const [storeName, setStoreName] = useState('BILL');
 
   const people = useMemo(() => getPeopleFromItems(items), [items]);
 
@@ -27,6 +27,7 @@ export default function App() {
       id: Date.now(),
       name: '',
       price: '',
+      quantity: '1',
       taxable: true,
       owners: [],
       ownerInput: ''
@@ -116,7 +117,7 @@ export default function App() {
           type="text"
           value={storeName}
           onChange={(e) => setStoreName(e.target.value)}
-          placeholder="Store Name"
+          placeholder="Bill Name"
           style={{
             fontSize: '20px',
             fontWeight: 'bold',
@@ -128,7 +129,6 @@ export default function App() {
             marginBottom: '5px'
           }}
         />
-        <p style={{ fontSize: '11px', margin: '2px 0' }}>Save Money. Live Better.</p>
         <p style={{ fontSize: '10px', margin: '2px 0' }}>{new Date().toLocaleString()}</p>
       </div>
 

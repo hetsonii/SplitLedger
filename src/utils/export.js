@@ -1,4 +1,4 @@
-export const generateBillText = (items, calculations, people, owedByPerson, taxRate, discount, storeName = "RETAIL STORE") => {
+export const generateBillText = (items, calculations, people, owedByPerson, taxRate, discount, storeName = "BILL") => {
   const validItems = items.filter(
     item => item.price && !isNaN(parseFloat(item.price)) && item.owners.length > 0
   );
@@ -6,7 +6,6 @@ export const generateBillText = (items, calculations, people, owedByPerson, taxR
   let text = '';
   text += '═'.repeat(50) + '\n';
   text += `${storeName.toUpperCase()}\n`;
-  text += 'Save Money. Live Better.\n';
   text += new Date().toLocaleString() + '\n';
   text += '═'.repeat(50) + '\n\n';
 
@@ -16,8 +15,11 @@ export const generateBillText = (items, calculations, people, owedByPerson, taxR
   validItems.forEach(item => {
     const owners = item.owners.join(', ');
     const taxIndicator = item.taxable ? ' T' : '';
+    const qty = parseInt(item.quantity) || 1;
+    const totalPrice = parseFloat(item.price) * qty;
     text += `${item.name}${taxIndicator}\n`;
-    text += `  Price: $${parseFloat(item.price).toFixed(2)} [${owners}]\n`;
+    text += `  Qty: ${qty} × $${parseFloat(item.price).toFixed(2)} = $${totalPrice.toFixed(2)}\n`;
+    text += `  [${owners}]\n`;
   });
 
   text += '─'.repeat(50) + '\n\n';
@@ -42,8 +44,6 @@ export const generateBillText = (items, calculations, people, owedByPerson, taxR
     });
     text += '═'.repeat(50) + '\n';
   }
-
-  text += '\nTHANK YOU FOR YOUR PURCHASE!\n';
   
   return text;
 };
@@ -58,7 +58,7 @@ export const copyToClipboard = async (text) => {
   }
 };
 
-export const generatePDFContent = (items, calculations, people, owedByPerson, taxRate, discount, storeName = "RETAIL STORE") => {
+export const generatePDFContent = (items, calculations, people, owedByPerson, taxRate, discount, storeName = "BILL") => {
   const validItems = items.filter(
     item => item.price && !isNaN(parseFloat(item.price)) && item.owners.length > 0
   );
@@ -90,12 +90,9 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
       margin: 5px 0;
       font-weight: bold;
     }
-    .header p {
-      font-size: 11px;
-      margin: 2px 0;
-    }
     .date {
       font-size: 10px;
+      margin: 5px 0;
     }
     .items {
       border-top: 2px dashed #000;
@@ -104,18 +101,20 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
       margin: 15px 0;
     }
     .item {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-size: 11px;
     }
     .item-header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 2px;
+      font-weight: bold;
     }
     .item-details {
       font-size: 10px;
       color: #333;
       margin-left: 10px;
+      margin-bottom: 2px;
     }
     .totals {
       margin-top: 15px;
@@ -158,13 +157,6 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
     .split-row .name {
       font-weight: bold;
     }
-    .footer {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 10px;
-      border-top: 2px dashed #000;
-      padding-top: 15px;
-    }
     .divider {
       border-bottom: 1px solid #000;
       margin: 10px 0;
@@ -174,7 +166,6 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
 <body>
   <div class="header">
     <h1>${storeName.toUpperCase()}</h1>
-    <p>Save Money. Live Better.</p>
     <p class="date">${new Date().toLocaleString()}</p>
   </div>
 
@@ -182,12 +173,16 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
     ${validItems.map(item => {
       const owners = item.owners.join(', ');
       const taxIndicator = item.taxable ? ' T' : '';
+      const qty = parseInt(item.quantity) || 1;
+      const unitPrice = parseFloat(item.price);
+      const totalPrice = unitPrice * qty;
       return `
         <div class="item">
           <div class="item-header">
             <span>${item.name}${taxIndicator}</span>
-            <span>$${parseFloat(item.price).toFixed(2)}</span>
+            <span>$${totalPrice.toFixed(2)}</span>
           </div>
+          <div class="item-details">Qty: ${qty} × $${unitPrice.toFixed(2)}</div>
           <div class="item-details">[${owners}]</div>
         </div>
       `;
@@ -231,10 +226,6 @@ export const generatePDFContent = (items, calculations, people, owedByPerson, ta
       `).join('')}
     </div>
   ` : ''}
-
-  <div class="footer">
-    <p>THANK YOU FOR YOUR PURCHASE!</p>
-  </div>
 </body>
 </html>
   `;

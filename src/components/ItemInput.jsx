@@ -36,6 +36,21 @@ export default function ItemInput({
         />
         <input
           type="number"
+          min="1"
+          value={item.quantity}
+          onChange={(e) => onUpdate(item.id, 'quantity', e.target.value)}
+          onBlur={() => onBlur(item)}
+          placeholder="Qty"
+          style={{ 
+            width: '50px', 
+            padding: '6px', 
+            fontSize: '11px', 
+            border: '1px solid #999', 
+            fontFamily: 'Courier New, monospace' 
+          }}
+        />
+        <input
+          type="number"
           step="0.01"
           value={item.price}
           onChange={(e) => onUpdate(item.id, 'price', e.target.value)}
