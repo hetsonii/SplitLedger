@@ -3,10 +3,11 @@ import ItemInput from './components/ItemInput';
 import BillSummary from './components/BillSummary';
 import ExportButtons from './components/ExportButtons';
 import { calculateBillTotals, calculatePersonOwed, getPeopleFromItems } from './utils/calculations';
+import { toTitleCase } from './utils/stringUtils';
 
 export default function App() {
   const [items, setItems] = useState([]);
-  const [taxRate, setTaxRate] = useState(14);
+  const [taxRate, setTaxRate] = useState(8.25);
   const [discount, setDiscount] = useState('');
   const [storeName, setStoreName] = useState('BILL');
 
@@ -52,7 +53,8 @@ export default function App() {
     
     setItems(items.map(item => {
       if (item.id === itemId) {
-        const trimmedName = ownerName.trim();
+        // Convert to title case for consistency
+        const trimmedName = toTitleCase(ownerName.trim());
         if (!item.owners.includes(trimmedName)) {
           return {
             ...item,
@@ -223,25 +225,47 @@ export default function App() {
         storeName={storeName}
       />
 
-      <div style={{ 
-        textAlign: 'center', 
-        marginTop: '20px', 
-        paddingTop: '15px',
-        borderTop: '1px dashed #ddd',
-        fontSize: '10px',
-        color: '#666'
+      <div style={{
+        marginTop: '30px',
+        marginBottom: '20px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '8px'
       }}>
-        Crafted with 💜 by <a 
-          href="https://github.com/hetsonii/SplitLedger" 
-          target="_blank" 
+        <a
+          href="https://github.com/hetsonii/SplitLedger"
+          target="_blank"
           rel="noopener noreferrer"
-          style={{ 
-            color: '#666', 
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '6px 14px',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            borderRadius: '20px',
+            color: '#fff',
             textDecoration: 'none',
-            borderBottom: '1px dotted #999'
+            fontSize: '10px',
+            fontWeight: '600',
+            transition: 'all 0.3s ease',
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 2px 8px rgba(102, 126, 234, 0.3)';
           }}
         >
-          Het Soni
+          <span>💜</span>
+          <span>by hetsonii</span>
+          <span style={{ opacity: 0.7 }}>•</span>
+          <span>⭐</span>
         </a>
       </div>
     </div>
